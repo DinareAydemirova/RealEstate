@@ -17,7 +17,7 @@ const Header = () => {
     <section className={style.wrapper}>
       <div className={style.container}>
         <div className={style.header}>
-          <img src="./logo.png" alt="Logo" />
+          <Link to={"/"}><img src="./logo.png" alt="Logo" /></Link>
           <div className={`${style.menu} ${menuOpen ? style.open : ""}`}>
             <li className={isActive("/residencies")}>
               <Link to="/residencies">Residencies</Link>
