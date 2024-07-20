@@ -1,0 +1,112 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  .wrapper {
+    font-family: "poppins";
+    margin-bottom: 100px;
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+  
+      .value {
+        display: flex;
+        gap: 20px;
+        .leftside {
+          max-width: 27rem;
+          height: auto;
+          overflow: hidden;
+          border-radius: 15rem 15rem 0 0;
+          border: 8px solid rgba(255, 255, 255, 0.12);
+  
+          img {
+            width: 100%;
+            height: 100%;
+          }
+        }
+  
+        .rightside {
+          .headings {
+            margin-bottom: 50px;
+  
+            h3 {
+              font-size: 1.5rem;
+              font-weight: 600;
+              color: orange;
+            }
+  
+            h2 {
+              color: #1f3e72;
+              font-weight: 700;
+              font-size: 2rem;
+            }
+  
+            p {
+              color: #8c8b8b;
+              font-size: 0.9rem;
+            }
+          }
+  
+          .accordion {
+            margin-top: 30px;
+            padding: 20px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            transition: box-shadow 0.3s ease;
+  
+            &.active {
+              box-shadow: rgba(64, 102, 255, 0.25) 0px 25px 50px -12px;
+            }
+  
+            .heading {
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              cursor: pointer;
+  
+              span {
+                color: #007aff;
+                background-color: #eeeeff;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 10px;
+                border-radius: 5px;
+              }
+  
+              p {
+                color: #1f3e72;
+                font-weight: 700;
+              }
+            }
+  
+            .info {
+              color: #8c8b8b;
+              font-size: 0.9rem;
+              margin-top: 20px;
+              max-height: 0;
+              overflow: hidden;
+              opacity: 0;
+              visibility: hidden;
+  
+              &.expanded {
+                max-height: 200px; 
+                opacity: 1;
+                visibility: visible;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  @media only screen and (max-width: 1000px) {
+    .value {
+        display: flex;
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+    }
+  }

@@ -36,6 +36,10 @@
                     padding: 10px;
                    background-color: #eeeeff;
                    box-shadow: rgba(238, 238, 255, 1) 0px 3px 8px;
+                   transition: 0.3s;
+                }
+                button:hover{
+                    background-color: #d5d5e7;
                 }
             }
         }
