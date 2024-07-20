@@ -1,0 +1,142 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.wrapper {
+  font-family: "poppins";
+  margin-bottom: 100px;
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+   
+    .contact {
+      display: flex;
+      margin: 0 15px;
+      .rightside {
+        max-width: 27rem;
+        overflow: hidden;
+        border-radius: 15rem 15rem 0 0;
+        border: 8px solid #8c8b8b5b;
+        img {
+          width: 100%;
+          height: 100%;
+        }
+      }
+      .leftside{
+        .headings{
+            h3{
+                color: orange;
+                font-size: 1.5rem;
+                font-weight: 600;
+            }
+            h2{
+                color: #1f3e72;
+                font-weight: 700;
+                font-size: 2rem; 
+            }
+            p{
+                color: #8c8b8b;
+                font-size: .9rem;
+            }
+        }
+        .contactways{
+            .cards{
+                display: flex;
+                margin-top: 50px;
+                gap: 15px;
+                .card{
+                    padding: 20px;
+                    border: 0.5px solid #8c8b8b5b;
+                    border-radius: 5px;
+                    width: 16rem;
+                    transition: 0.3s;
+                    span{
+                        color: #007aff;
+                        padding: 10px;
+                        border-radius: 5px;
+                        background-color: #eeeeff;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                    }
+                    h4{
+                        color: #1f3e72;
+                        font-size: 1.1rem;
+                        font-weight: 600;
+                    }
+                    p{
+                        color: #8c8b8b;
+                        font-size: .9rem;
+                    }
+                    button{
+                        padding: 12px 28px;
+                        background-color: #eeeeff;
+                        color: #4066ff;
+                        font-size: 18px;
+                        font-weight: 600;
+                        border: none;
+                        border-radius: 5px;
+                        width: 100%;
+                        margin-top: 15px;
+                        transition: 0.3s;
+                    }
+                    button:hover{
+                        background-color:  #4066ff;
+                        color: white;
+                    }
+
+                }
+                .card:hover{
+                    box-shadow: rgba(64, 102, 255, 0.25) 0px 25px 50px -12px;
+                    transform: scale(1.05);
+                }
+            }
+        }
+      }
+    }
+  }
+}
+@media only screen and (max-width: 1070px) {
+  .contact {
+    .rightside{
+      display: none !important;
+    }
+      .leftside{
+        text-align: center !important;
+        .cards{
+          display: flex !important;
+          justify-content: center !important;
+          .card{
+            flex-wrap: wrap !important;
+          }
+        }
+      }
+  }
+}
+@media only screen and (max-width: 690px) {
+  .cards{
+    display: flex;
+    flex-direction: column !important;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+@media only screen and (max-width: 350px) {
+  .card{
+    padding: 10px !important;
+    width: 13rem !important;
+    transition: 0.3s;
+    span{
+        color: #007aff;
+        padding: 5px;
+    }
+    button{
+        padding: 10px 25px;
+    }
+   
+
+}
+}

@@ -19,7 +19,7 @@
           height: auto;
           overflow: hidden;
           border-radius: 15rem 15rem 0 0;
-          border: 8px solid rgba(255, 255, 255, 0.12);
+          border: 8px solid #8c8b8b5b;
   
           img {
             width: 100%;
@@ -56,7 +56,7 @@
             display: flex;
             flex-direction: column;
             transition: box-shadow 0.3s ease;
-  
+            border: 0.5px solid #8c8b8b5b;
             &.active {
               box-shadow: rgba(64, 102, 255, 0.25) 0px 25px 50px -12px;
             }
@@ -75,18 +75,20 @@
                 justify-content: center;
                 padding: 10px;
                 border-radius: 5px;
+                margin: 10px 0;
               }
   
               p {
                 color: #1f3e72;
                 font-weight: 700;
+                margin-top: 10px 0;
+
               }
             }
   
             .info {
               color: #8c8b8b;
               font-size: 0.9rem;
-              margin-top: 20px;
               max-height: 0;
               overflow: hidden;
               opacity: 0;
