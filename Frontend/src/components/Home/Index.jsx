@@ -4,6 +4,7 @@ import Partners from "./Partners/Index";
 import Residencies from "./Residencies/Index";
 import OurValue from "./OurValue/Index";
 import Contact from "./Contact/Index";
+import GetStarted from "./GetStarted/Index";
 
 const Home = () => {
   return (
@@ -13,6 +14,7 @@ const Home = () => {
       <Residencies />
       <OurValue />
       <Contact/>
+      <GetStarted/>
     </div>
   );
 };

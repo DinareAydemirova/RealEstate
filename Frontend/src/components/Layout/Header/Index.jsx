@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import style from "./Header.module.scss";
 import { Link, useLocation } from "react-router-dom";
-import { RiMenu3Fill , RiCloseLine} from "react-icons/ri";
+import { RiMenu3Fill, RiCloseLine } from "react-icons/ri";
+import { CgLogIn } from "react-icons/cg";
 
 const Header = () => {
   const location = useLocation();
@@ -17,28 +18,28 @@ const Header = () => {
     <section className={style.wrapper}>
       <div className={style.container}>
         <div className={style.header}>
-          <Link to={"/"}><img src="./logo.png" alt="Logo" /></Link>
+          <Link to={"/"}>
+            <img src="./logo.png" alt="Logo" />
+          </Link>
           <div className={`${style.menu} ${menuOpen ? style.open : ""}`}>
             <li className={isActive("/residencies")}>
               <Link to="/residencies">Residencies</Link>
             </li>
             <li className={isActive("/our-value")}>
-              <Link to="/our-value">Our Value</Link>
+              <Link to="/our-value">Contact</Link>
             </li>
             <li className={isActive("/contact-us")}>
-              <Link to="/contact-us">Contact Us</Link>
+              <Link to="/contact-us">Sign Up</Link>
             </li>
-            <li className={isActive("/get-started")}>
-              <Link to="/get-started">Get Started</Link>
-            </li>
-            <li>
-              <Link to="/contact" className={style.button}>
-                Contact
+            <li className={style.button} >
+              <Link to="/contact" >
+              <p style={{display:"flex", alignItems:"center", gap:"5px"}}> Log In <CgLogIn /></p>
+                
               </Link>
             </li>
             <div className={style.burger} onClick={toggleMenu}>
-            {menuOpen ? <RiCloseLine /> : <RiMenu3Fill />}
-          </div>
+              {menuOpen ? <RiCloseLine /> : <RiMenu3Fill />}
+            </div>
           </div>
         </div>
       </div>
