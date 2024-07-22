@@ -23,7 +23,10 @@
     cursor: pointer;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.467);
     transition: 0.2s;
-    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     &:hover {
       background-color: #016cde;
     }

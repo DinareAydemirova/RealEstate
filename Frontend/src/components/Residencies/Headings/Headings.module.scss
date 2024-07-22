@@ -1,0 +1,74 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  margin-top: 200px;
+  font-family: "poppins";
+  .headings {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    gap: 20px;
+    h1 {
+      color: #1f3e72;
+      font-weight: 600;
+      font-size: 50px;
+    }
+    p {
+      color: #8c8b8b;
+      font-size: 0.9rem;
+    }
+    .searchBar {
+      margin-top: 100px;
+      background-color: white;
+      padding: 0.3rem 0.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: clamp(12rem, 100%, 28rem);
+      border-radius: 30px;
+      border: 1px solid rgba(120, 120, 120, 0.374);
+      flex-wrap: nowrap;
+      span {
+        color: #4066ff;
+        font-size: 1.5rem;
+      }
+
+      input {
+        outline: none;
+        border: none;
+        flex: 1;
+        margin: 0 10px;
+        min-width: 0;
+      }
+
+      button {
+        background-color: #4066ff;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 50px;
+        border: none;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 675px) {
+  .searchBar {
+    padding: 0.2rem 0.3rem !important;
+    width: clamp(6rem, 100%, 14rem) !important;
+    span {
+      font-size: 1.1rem !important;
+    }
+    button {
+      padding: 5px 10px !important;
+ 
+    }
+  }
+}

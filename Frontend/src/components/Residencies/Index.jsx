@@ -1,8 +1,13 @@
 import React from 'react'
+import Headings from './Headings/Index'
+import Properties from './Properties/Index'
 
 const Residencies = () => {
   return (
-    <div>Residencies</div>
+    <div>
+      <Headings/>
+      <Properties/>
+    </div>
   )
 }
 

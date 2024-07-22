@@ -92,6 +92,9 @@
 }
 
 @media only screen and (max-width: 845px) {
+  .menu{
+    
+  }
   .menu a {
     display: none !important;
   }
@@ -101,5 +104,11 @@
   }
   .menu .burger {
     display: block !important;
+  }
+  .button{
+    background-color: black !important;
+    padding-left: 0 !important;
+    border-radius: 5px;
+    list-style: none;
   }
 }
