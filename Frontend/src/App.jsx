@@ -7,6 +7,9 @@ import ScrollToTop from "./hooks/ScrollToTop";
 import PuffLoader from "react-spinners/PuffLoader";
 import "aos/dist/aos.css";
 import AOS from "aos";
+import Contact from "./components/Contact/Index";
+import Register from "./components/Register/Index";
+import Login from "./components/Login/Index";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -33,7 +36,11 @@ function App() {
           <Route element={<Layout />}>
             <Route index element={<Home />} />
             <Route path="/residencies" element={<Residencies />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<Login />} />
           </Route>
+         
         </Routes>
       )}
     </BrowserRouter>

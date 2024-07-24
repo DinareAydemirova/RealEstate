@@ -1,13 +1,13 @@
-import React from "react";
-import style from "./Contact.module.scss";
+import React from 'react';
+import style from './ContactForm.module.scss';
 import { FaLocationDot } from "react-icons/fa6";
 import { BiSolidMessageRoundedDots } from "react-icons/bi";
 import { BiSolidMessageAltDetail } from "react-icons/bi";
 import { IoMdMail } from "react-icons/io";
 
-const Contact = () => {
+const ContactForm = () => {
   const openWhatsApp = (number) => {
-    const url = `https://wa.me/${994508006366}`;
+    const url = `https://wa.me/${number}`;
     window.open(url, "_blank");
   };
 
@@ -17,26 +17,20 @@ const Contact = () => {
     const url = `mailto:${email}?subject=${subject}&body=${body}`;
     window.open(url, "_blank");
   };
+
   const openMap = () => {
     const url = `https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2920.7008610522607!2d49.84904458487168!3d40.37719389782147!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40307d077c61fef3%3A0xfa4594c97092ca01!2sAF%20Business%20House!5e1!3m2!1sen!2sbd!4v1707418765094!5m2!1sen!2sbd`;
     window.open(url, "_blank");
   };
+
   return (
-    <section className={style.wrapper} data-aos="fade-up">
+    <div className={style.wrapper}>
       <div className={style.container}>
         <div className={style.contact}>
-          <div className={style.leftside}>
-            <div className={style.headings}>
-              <h3>Contact Us</h3>
-              <h2>Easy to contact us</h2>
-              <p>
-                We always ready to help by providijng the best services for you.
-                We beleive a good blace to live can make your life better
-              </p>
-            </div>
+          <div className={style.leftside} data-aos="fade-right">
             <div className={style.contactways}>
               <div className={style.cards}>
-              <div className={style.card}>
+                <div className={style.card}>
                   <div
                     style={{
                       display: "flex",
@@ -117,13 +111,20 @@ const Contact = () => {
               </div>
             </div>
           </div>
-          <div className={style.rightside}>
-            <img src="./contact.jpg" alt="" />
+          <div className={style.rightside} data-aos="fade-left">
+            <form action="">
+              <div>
+                <input type="text" placeholder="Full Name" />
+                <input type="email" name="" id="" placeholder="Email" />
+              </div>
+              <textarea name="" id="" placeholder="Message" />
+              <button type="submit">Send Message</button>
+            </form>
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 
-export default Contact;
+export default ContactForm;

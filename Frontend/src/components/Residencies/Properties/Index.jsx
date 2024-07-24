@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import style from "./Properties.module.scss";
+import { HiLocationMarker } from "react-icons/hi";
 
 const Properties = () => {
     const [visible, setVisible] = useState(3);
@@ -11,6 +12,13 @@ const Properties = () => {
   return (
     <section className={style.wrapper}>
       <div className={style.container}>
+      <div className={style.searchBar} data-aos="fade-up">
+              <span>
+                <HiLocationMarker />
+              </span>
+              <input type="text" placeholder="Search by title/city/country ..." />
+              <button>Search</button>
+            </div>
         <div className={style.properties}>
           <div className={style.card} data-aos="fade-up">
             <img src="./r1.png" alt="" />

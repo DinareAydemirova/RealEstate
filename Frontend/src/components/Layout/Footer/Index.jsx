@@ -15,11 +15,11 @@ const Footer = () => {
           </div>
           <div className={style.pages}>
             <h4>Pages</h4>
-            <Link>Home</Link>
-            <Link>Residencies</Link>
-            <Link>Contact</Link>
-            <Link>Log In</Link>
-            <Link>Sign Up</Link>
+            <Link to='/'>Home</Link>
+            <Link to='/residencies'>Residencies</Link>
+            <Link to='/contact'>Contact</Link>
+            <Link to='/login'>Log In</Link>
+            <Link to='/register'>Sign Up</Link>
           </div>
           <div className={style.location}>
             <iframe

@@ -25,14 +25,14 @@ const Header = () => {
             <li className={isActive("/residencies")}>
               <Link to="/residencies">Residencies</Link>
             </li>
-            <li className={isActive("/our-value")}>
-              <Link to="/our-value">Contact</Link>
+            <li className={isActive("/contact")}>
+              <Link to="/contact">Contact</Link>
             </li>
-            <li className={isActive("/contact-us")}>
-              <Link to="/contact-us">Sign Up</Link>
+            <li className={isActive("/register")}>
+              <Link to="/register">Sign Up</Link>
             </li>
             <li className={style.button} >
-              <Link to="/contact" >
+              <Link to="/login" >
               <p style={{display:"flex", alignItems:"center", gap:"5px"}}> Log In <CgLogIn /></p>
                 
               </Link>
