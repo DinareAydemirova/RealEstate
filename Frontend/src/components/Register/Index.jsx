@@ -1,12 +1,37 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { Formik, Field, Form, ErrorMessage } from "formik";
+import * as yup from "yup";
 
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
+  const handleSubmit = async (values, { resetForm }) => {
+    try {
+      const response = await fetch("http://localhost:3000/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: values.email,
+          password: values.password,
+          fullName: values.fullName,
+        }),
+      });
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message);
+      }
+      resetForm();
+      setError(null);
+      navigate("/login");
+    } catch (error) {
+      setError(error.message);
+    }
   };
 
   return (
@@ -25,7 +50,8 @@ const Register = () => {
               backgroundImage:
                 "url(https://wallpapers.com/images/hd/dream-house-pictures-1800-x-1200-yjphbmq6lkdrikdb.jpg)",
             }}
-            data-aos="fade-right">
+            data-aos="fade-right"
+          >
             <div className="absolute bg-gradient-to-b from-blue-900 to-gray-900 opacity-75 inset-0 z-0" />
             <div className="absolute triangle  min-h-screen right-0 w-16" />
             <a
@@ -76,66 +102,143 @@ const Register = () => {
                   Fill the form to create a account
                 </p>
               </div>
-
-              <form className="mt-8 space-y-6" action="#" method="POST"  data-aos="fade-left">
-                <div className="relative">
-                  <label className="ml-3 text-sm font-bold text-gray-700 tracking-wide">
-                        Full Name
-                  </label>
-                  <input
-                    className=" w-full text-base px-4 py-2 border-b border-gray-300 focus:outline-none rounded-2xl focus:border-indigo-500"
-                    type=""
-                    placeholder="Full name"
-                  />
-                </div>
-                <div className="relative">
-                  <label className="ml-3 text-sm font-bold text-gray-700 tracking-wide">
-                    Email
-                  </label>
-                  <input
-                    className=" w-full text-base px-4 py-2 border-b border-gray-300 focus:outline-none rounded-2xl focus:border-indigo-500"
-                    type=""
-                    placeholder="mail@gmail.com"
-                  />
-                </div>
-                <div className="mt-8 content-center relative">
-                  <label className="ml-3 text-sm font-bold text-gray-700 tracking-wide">
-                    Password
-                  </label>
-                  <input
-                    className="w-full content-center text-base px-4 py-2 border-b rounded-2xl border-gray-300 focus:outline-none focus:border-indigo-500"
-                    type={showPassword ? "text" : "password"}
-                    placeholder="Enter your password"
-                  />
-                  <div className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5">
+              <Formik
+                initialValues={{
+                  fullName: "",
+                  email: "",
+                  password: "",
+                  repeatpassword: "",
+                }}
+                validationSchema={yup.object({
+                  fullName: yup.string().required("Full name is required"),
+                  email: yup
+                    .string()
+                    .email("Invalid email address")
+                    .required("Email is required"),
+                  password: yup
+                    .string()
+                    .min(8, "Password must be at least 8 characters")
+                    .required("Password is required"),
+                  repeatpassword: yup
+                    .string()
+                    .oneOf([yup.ref("password"), null], "Passwords must match")
+                    .required("Repeat password is required"),
+                })}
+                onSubmit={(values, { setSubmitting, resetForm }) => {
+                  setSubmitting(false);
+                  handleSubmit(values, { resetForm });
+                }}
+              >
+                <Form
+                  className="mt-8 space-y-6"
+                  action="#"
+                  method="POST"
+                  data-aos="fade-left"
+                >
+                  <div className="relative">
+                    <label className="ml-3 text-sm font-bold text-gray-700 tracking-wide">
+                      Full Name
+                    </label>
+                    <Field
+                      className=" w-full text-base px-4 py-2 border-b border-gray-300 focus:outline-none rounded-2xl focus:border-indigo-500"
+                      type="text"
+                      placeholder="Full name"
+                      name="fullName"
+                    />
+                    <ErrorMessage
+                      name="fullName"
+                      component="span"
+                      className="text-red-500 text-sm"
+                    />
+                  </div>
+                  <div className="relative">
+                    <label className="ml-3 text-sm font-bold text-gray-700 tracking-wide">
+                      Email
+                    </label>
+                    <Field
+                      className=" w-full text-base px-4 py-2 border-b border-gray-300 focus:outline-none rounded-2xl focus:border-indigo-500"
+                      type="email"
+                      placeholder="mail@gmail.com"
+                      name="email"
+                    />
+                    <ErrorMessage
+                      name="email"
+                      component="span"
+                      className="text-red-500 text-sm"
+                    />
+                  </div>
+                  <div className="mt-8 content-center relative">
+                    <label className="ml-3 text-sm font-bold text-gray-700 tracking-wide">
+                      Password
+                    </label>
+                    <Field
+                      className="w-full content-center text-base px-4 py-2 border-b rounded-2xl border-gray-300 focus:outline-none focus:border-indigo-500"
+                      type={showPassword ? "text" : "password"}
+                      placeholder="Enter your password"
+                      name="password"
+                    />
+                    <div className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5">
+                      <button
+                        type="button"
+                        className="focus:outline-none"
+                        onClick={() => setShowPassword(!showPassword)}
+                      >
+                        {showPassword ? <FaEyeSlash /> : <FaEye />}
+                      </button>
+                    </div>
+                    <ErrorMessage
+                      name="password"
+                      component="span"
+                      className="text-red-500 text-sm"
+                    />
+                  </div>
+                  <div className="mt-8 content-center relative">
+                    <label className="ml-3 text-sm font-bold text-gray-700 tracking-wide">
+                      Repeat Password
+                    </label>
+                    <Field
+                      className="w-full content-center text-base px-4 py-2 border-b rounded-2xl border-gray-300 focus:outline-none focus:border-indigo-500"
+                      type={showPassword ? "text" : "password"}
+                      placeholder="Enter your password"
+                      name="repeatpassword"
+                    />
+                    <div className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5">
+                      <button
+                        type="button"
+                        className="focus:outline-none"
+                        onClick={() => setShowPassword(!showPassword)}
+                      >
+                        {showPassword ? <FaEyeSlash /> : <FaEye />}
+                      </button>
+                    </div>
+                    <ErrorMessage
+                      name="repeatpassword"
+                      component="span"
+                      className="text-red-500 text-sm"
+                    />
+                  </div>
+                  {error && (
+                    <div className="text-red-500 text-sm mb-4">{error}</div>
+                  )}
+                  <div>
                     <button
-                      type="button"
-                      className="focus:outline-none"
-                      onClick={togglePasswordVisibility}
+                      type="submit"
+                      className="w-full flex justify-center bg-gradient-to-r from-indigo-500 to-blue-600  hover:bg-gradient-to-l hover:from-blue-500 hover:to-indigo-600 text-gray-100 p-4  rounded-full tracking-wide font-semibold  shadow-lg cursor-pointer transition ease-in duration-500"
                     >
-                      {showPassword ? <FaEyeSlash /> : <FaEye />}
+                      Sign up
                     </button>
                   </div>
-                </div>
-               
-                <div>
-                  <button
-                    type="submit"
-                    className="w-full flex justify-center bg-gradient-to-r from-indigo-500 to-blue-600  hover:bg-gradient-to-l hover:from-blue-500 hover:to-indigo-600 text-gray-100 p-4  rounded-full tracking-wide font-semibold  shadow-lg cursor-pointer transition ease-in duration-500"
-                  >
-                    Sign up
-                  </button>
-                </div>
-                <p className="flex flex-col items-center justify-center mt-10 text-center text-md text-gray-500">
-                  <span>Already have an account?</span>
-                  <Link
-                    to='/login'
-                    className="text-indigo-400 hover:text-blue-500 no-underline hover:underline cursor-pointer transition ease-in duration-300"
-                  >
-                    Log in
-                  </Link>
-                </p>
-              </form>
+                  <p className="flex flex-col items-center justify-center mt-10 text-center text-md text-gray-500">
+                    <span>Already have an account?</span>
+                    <Link
+                      to="/login"
+                      className="text-indigo-400 hover:text-blue-500 no-underline hover:underline cursor-pointer transition ease-in duration-300"
+                    >
+                      Log in
+                    </Link>
+                  </p>
+                </Form>
+              </Formik>
             </div>
           </div>
         </div>

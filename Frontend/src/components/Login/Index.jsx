@@ -1,12 +1,42 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { UserContext } from "../../context/userProvider";
+import { Formik, Form, ErrorMessage, Field } from "formik";
+import * as Yup from "yup";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState(null);
+  const { addToken } = useContext(UserContext);
+  const navigate = useNavigate();
 
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
+  const handleSubmit = async (values, { resetForm }) => {
+    try {
+      const response = await fetch("http://localhost:3000/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: values.email,
+          password: values.password,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Login failed.");
+      }
+
+      const data = await response.json();
+      addToken(data);
+      resetForm();
+      setError(null);
+      navigate("/");
+    } catch (error) {
+      setError(error.message);
+    }
   };
 
   return (
@@ -64,81 +94,115 @@ const Login = () => {
                   Please sign in to your account
                 </p>
               </div>
-              <form
-                className="mt-8 space-y-6"
-                action="#"
-                method="POST"
-                data-aos="fade-left"
+              <Formik
+                initialValues={{ password: "", email: "" }}
+                validationSchema={Yup.object({
+                  password: Yup.string()
+                    .min(8, "Must be at least 8 characters long")
+                    .required("Password is required"),
+                  email: Yup.string()
+                    .email("Invalid email address")
+                    .required("Email is required"),
+                })}
+                onSubmit={(values, { setSubmitting, resetForm }) => {
+                  setSubmitting(false);
+                  handleSubmit(values, { resetForm });
+                }}
               >
-                <input type="hidden" name="remember" defaultValue="true" />
-                <div className="relative">
-                  <label className="ml-3 text-sm font-bold text-gray-700 tracking-wide">
-                    Email
-                  </label>
-                  <input
-                    className="w-full text-base px-4 py-2 border-b border-gray-300 focus:outline-none rounded-2xl focus:border-indigo-500"
-                    type="email"
-                    placeholder="mail@gmail.com"
-                  />
-                </div>
-                <div className="mt-8 content-center relative">
-                  <label className="ml-3 text-sm font-bold text-gray-700 tracking-wide">
-                    Password
-                  </label>
-                  <input
-                    className="w-full content-center text-base px-4 py-2 border-b rounded-2xl border-gray-300 focus:outline-none focus:border-indigo-500"
-                    type={showPassword ? "text" : "password"}
-                    placeholder="Enter your password"
-                  />
-                  <div className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5">
+                <Form
+                  className="mt-8 space-y-6"
+                  action="#"
+                  method="POST"
+                  data-aos="fade-left"
+                >
+                  <input type="hidden" name="remember" defaultValue="true" />
+                  <div className="relative">
+                    <label className="ml-3 text-sm font-bold text-gray-700 tracking-wide">
+                      Email
+                    </label>
+                    <Field
+                      className="w-full text-base px-4 py-2 border-b border-gray-300 focus:outline-none rounded-2xl focus:border-indigo-500"
+                      type="email"
+                      placeholder="mail@gmail.com"
+                      name="email"
+                    />
+                    <ErrorMessage
+                      name="email"
+                      component="span"
+                      className="text-red-500 text-sm"
+                    />
+                  </div>
+                  <div className="mt-8 content-center relative">
+                    <label className="ml-3 text-sm font-bold text-gray-700 tracking-wide">
+                      Password
+                    </label>
+                    <Field
+                      className="w-full content-center text-base px-4 py-2 border-b rounded-2xl border-gray-300 focus:outline-none focus:border-indigo-500"
+                      type={showPassword ? "text" : "password"}
+                      placeholder="Enter your password"
+                      name="password"
+                    />
+                    <div className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5">
+                      <button
+                        name="password"
+                        className="focus:outline-none"
+                        onClick={() => setShowPassword(!showPassword)}
+                      >
+                        {showPassword ? <FaEyeSlash /> : <FaEye />}
+                      </button>
+                    </div>
+                    <ErrorMessage
+                      name="password"
+                      component="span"
+                      className="text-red-500 text-sm"
+                    />
+                  </div>
+                  {error && (
+                    <div className="mb-4 text-red-500 text-sm">{error}</div>
+                  )}
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center">
+                      <input
+                        id="remember_me"
+                        name="remember_me"
+                        type="checkbox"
+                        className="h-4 w-4 bg-blue-500 focus:ring-blue-400 border-gray-300 rounded"
+                      />
+                      <label
+                        htmlFor="remember_me"
+                        className="ml-2 block text-sm text-gray-900"
+                      >
+                        Remember me
+                      </label>
+                    </div>
+                    <div className="text-sm">
+                      <a
+                        href="#"
+                        className="text-indigo-400 hover:text-blue-500"
+                      >
+                        Forgot your password?
+                      </a>
+                    </div>
+                  </div>
+                  <div>
                     <button
-                      type="button"
-                      className="focus:outline-none"
-                      onClick={togglePasswordVisibility}
+                      type="submit"
+                      className="w-full flex justify-center bg-gradient-to-r from-indigo-500 to-blue-600 hover:bg-gradient-to-l hover:from-blue-500 hover:to-indigo-600 text-gray-100 p-4 rounded-full tracking-wide font-semibold shadow-lg cursor-pointer transition ease-in duration-500"
                     >
-                      {showPassword ? <FaEyeSlash /> : <FaEye />}
+                      Sign in
                     </button>
                   </div>
-                </div>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center">
-                    <input
-                      id="remember_me"
-                      name="remember_me"
-                      type="checkbox"
-                      className="h-4 w-4 bg-blue-500 focus:ring-blue-400 border-gray-300 rounded"
-                    />
-                    <label
-                      htmlFor="remember_me"
-                      className="ml-2 block text-sm text-gray-900"
+                  <p className="flex flex-col items-center justify-center mt-10 text-center text-md text-gray-500">
+                    <span>Don't have an account?</span>
+                    <Link
+                      to="/register"
+                      className="text-indigo-400 hover:text-blue-500 no-underline hover:underline cursor-pointer transition ease-in duration-300"
                     >
-                      Remember me
-                    </label>
-                  </div>
-                  <div className="text-sm">
-                    <a href="#" className="text-indigo-400 hover:text-blue-500">
-                      Forgot your password?
-                    </a>
-                  </div>
-                </div>
-                <div>
-                  <button
-                    type="submit"
-                    className="w-full flex justify-center bg-gradient-to-r from-indigo-500 to-blue-600 hover:bg-gradient-to-l hover:from-blue-500 hover:to-indigo-600 text-gray-100 p-4 rounded-full tracking-wide font-semibold shadow-lg cursor-pointer transition ease-in duration-500"
-                  >
-                    Sign in
-                  </button>
-                </div>
-                <p className="flex flex-col items-center justify-center mt-10 text-center text-md text-gray-500">
-                  <span>Don't have an account?</span>
-                  <Link
-                    to="/register"
-                    className="text-indigo-400 hover:text-blue-500 no-underline hover:underline cursor-pointer transition ease-in duration-300"
-                  >
-                    Sign up
-                  </Link>
-                </p>
-              </form>
+                      Sign up
+                    </Link>
+                  </p>
+                </Form>
+              </Formik>
             </div>
           </div>
         </div>

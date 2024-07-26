@@ -10,6 +10,7 @@ import AOS from "aos";
 import Contact from "./components/Contact/Index";
 import Register from "./components/Register/Index";
 import Login from "./components/Login/Index";
+import PrivateRoute from "./routes/PrivateRoute";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -40,8 +41,11 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
           </Route>
-         
+         <Route element={<PrivateRoute roles={['Admin']}/>}>
+
+         </Route>
         </Routes>
+
       )}
     </BrowserRouter>
   );
