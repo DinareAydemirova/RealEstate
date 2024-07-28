@@ -1,93 +1,85 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  .wrapper {
-    font-family: "poppins";
-    margin: 100px 0;
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      .contact {
-        display: flex;
-        margin: 0 15px;
-        gap: 15px;
-        .leftside {
-          .contactways {
-            .cards {
-              display: flex;
-              gap: 15px;
-              .card {
-                padding: 20px;
-                border: 0.5px solid #8c8b8b5b;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.wrapper {
+  font-family: "poppins";
+  margin: 100px 0;
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    .contact {
+      display: flex;
+      flex-wrap: wrap;
+      margin: 0 15px;
+      gap: 15px;
+      .leftside {
+        .contactways {
+          .cards {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            .card {
+              padding: 20px;
+              border: 0.5px solid #8c8b8b5b;
+              border-radius: 5px;
+              width: 16rem;
+              transition: 0.3s;
+              span {
+                color: #007aff;
+                padding: 10px;
                 border-radius: 5px;
-                width: 16rem;
+                background-color: #eeeeff;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+              }
+              h4 {
+                color: #1f3e72;
+                font-size: 1.1rem;
+                font-weight: 600;
+              }
+              p {
+                color: #8c8b8b;
+                font-size: 0.9rem;
+              }
+              button {
+                padding: 12px 28px;
+                background-color: #eeeeff;
+                color: #4066ff;
+                font-size: 18px;
+                font-weight: 600;
+                border: none;
+                border-radius: 5px;
+                width: 100%;
+                margin-top: 15px;
                 transition: 0.3s;
-                span {
-                  color: #007aff;
-                  padding: 10px;
-                  border-radius: 5px;
-                  background-color: #eeeeff;
-                  display: flex;
-                  justify-content: center;
-                  align-items: center;
-                }
-                h4 {
-                  color: #1f3e72;
-                  font-size: 1.1rem;
-                  font-weight: 600;
-                }
-                p {
-                  color: #8c8b8b;
-                  font-size: 0.9rem;
-                }
-                button {
-                  padding: 12px 28px;
-                  background-color: #eeeeff;
-                  color: #4066ff;
-                  font-size: 18px;
-                  font-weight: 600;
-                  border: none;
-                  border-radius: 5px;
-                  width: 100%;
-                  margin-top: 15px;
-                  transition: 0.3s;
-                }
-                button:hover {
-                  background-color: #4066ff;
-                  color: white;
-                }
               }
-              .card:hover {
-                box-shadow: rgba(64, 102, 255, 0.25) 0px 25px 50px -12px;
-                transform: scale(1.05);
+              button:hover {
+                background-color: #4066ff;
+                color: white;
               }
+            }
+            .card:hover {
+              box-shadow: rgba(64, 102, 255, 0.25) 0px 25px 50px -12px;
+              transform: scale(1.05);
             }
           }
         }
-        .rightside {
-          form {
+      }
+      .rightside {
+        form {
+          display: flex;
+          flex-direction: column;
+          gap: 15px;
+          div {
             display: flex;
-            flex-direction: column;
+            flex-wrap: wrap;
             gap: 15px;
-            div {
-              display: flex;
-              gap: 15px;
-              input {
-                flex: 1;
-                padding: 12px;
-                border: 0.5px solid #8c8b8b5b;
-                border-radius: 5px;
-                font-size: 16px;
-                color: #1f3e72;
-                &::placeholder {
-                  color: #8c8b8b;
-                }
-              }
-            }
-            textarea {
+            input {
+              flex: 1;
               padding: 12px;
               border: 0.5px solid #8c8b8b5b;
               border-radius: 5px;
@@ -97,23 +89,62 @@
                 color: #8c8b8b;
               }
             }
-            button {
-              padding: 12px;
-              background-color: #4066ff;
-              color: white;
-              font-size: 18px;
-              font-weight: 600;
-              border: none;
-              border-radius: 5px;
-              width: 100%;
-              transition: 0.3s;
-              &:hover {
-                background-color: #304bbd;
-              }
+          }
+          textarea {
+            padding: 12px;
+            border: 0.5px solid #8c8b8b5b;
+            border-radius: 5px;
+            font-size: 16px;
+            color: #1f3e72;
+            &::placeholder {
+              color: #8c8b8b;
+            }
+          }
+          button {
+            padding: 12px;
+            background-color: #4066ff;
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            border: none;
+            border-radius: 5px;
+            width: 100%;
+            transition: 0.3s;
+            &:hover {
+              background-color: #304bbd;
             }
           }
         }
       }
     }
   }
-  
+}
+@media only screen and (max-width: 1156px) {
+  .contact {
+    justify-content: center !important;
+    .leftside {
+      text-align: center !important;
+      .cards {
+        display: flex !important;
+        justify-content: center !important;
+        .card {
+          flex-wrap: wrap !important;
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 655px) {
+  .rightside {
+    form {
+      div {
+        display: flex;
+        flex-wrap: wrap !important;
+      }
+    }
+  }
+}
+
+
+

@@ -12,7 +12,10 @@ const Headings = () => {
       <div className={style.container} data-aos="fade-down">
         <div className={style.contact}>
           <h1>All Properties</h1>
-          
+          <p>
+            Want to get in touch? We'd love to hear from you. Here's how you can
+            reach us.
+          </p>
           <div className={style.page}>
             <Link to="/">Home</Link>
             <IoIosArrowForward />
