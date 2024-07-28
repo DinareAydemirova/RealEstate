@@ -11,6 +11,12 @@ import Contact from "./components/Contact/Index";
 import Register from "./components/Register/Index";
 import Login from "./components/Login/Index";
 import PrivateRoute from "./routes/PrivateRoute";
+import ResetPassword from "./components/ResetPassword/Index";
+import NewPassword from "./components/NewPassword/Index";
+import AdminPanel from "./components/Admin/Index";
+import Dashboard from "./components/Admin/Dashboard/Index";
+import Users from "./components/Admin/Users/Index";
+import Profile from "./components/Profile/Index";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -40,12 +46,17 @@ function App() {
             <Route path="/contact" element={<Contact />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/resetpassword" element={<ResetPassword />} />
+            <Route path="/newpassword" element={<NewPassword />} />
+            <Route path="/profile" element={<Profile />} />
           </Route>
-         <Route element={<PrivateRoute roles={['Admin']}/>}>
-
-         </Route>
+          <Route element={<PrivateRoute roles={["Admin"]} />}>
+            <Route path="admin/*" element={<AdminPanel />}>
+              <Route index element={<Dashboard />} />
+              <Route path="users" element={<Users />} />
+            </Route>
+          </Route>
         </Routes>
-
       )}
     </BrowserRouter>
   );

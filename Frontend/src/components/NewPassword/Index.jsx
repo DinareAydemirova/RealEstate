@@ -1,46 +1,41 @@
-import React, { useContext, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { UserContext } from "../../context/userProvider";
-import { Formik, Form, ErrorMessage, Field } from "formik";
+import React, { useState } from 'react'
+import { Field, Formik, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import { useNavigate } from 'react-router-dom';
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
-const Login = () => {
-  const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState(null);
-  const { addToken } = useContext(UserContext);
-  const navigate = useNavigate();
+const NewPassword = () => {
+    const [error, setError] = useState(null);
+    const [showPassword, setShowPassword] = useState(false);
+    const navigate = useNavigate();
 
-  const handleSubmit = async (values, { resetForm }) => {
-    try {
-      const response = await fetch("http://localhost:3000/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: values.email,
-          password: values.password,
-        }),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Login failed.");
-      }
-
-      const data = await response.json();
-      addToken(data);
-      resetForm();
-      setError(null);
-      navigate("/");
-    } catch (error) {
-      setError(error.message);
-    }
-  };
-
+    const handleResetPassword = async (values, { resetForm }) => {
+        try {
+          const response = await fetch("http://localhost:3000/reset-password", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              email: values.email,
+              password: values.password,
+            }),
+          });
+    
+          if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message);
+          }
+          resetForm();
+          setError(null);
+          navigate("/login");
+        } catch (error) {
+          setError(error.message);
+        }
+      };
+  
   return (
-    <>
+      <>
       <style
         dangerouslySetInnerHTML={{
           __html:
@@ -105,9 +100,9 @@ const Login = () => {
                     .required("Email is required"),
                 })}
                 onSubmit={(values, { setSubmitting, resetForm }) => {
-                  setSubmitting(false);
-                  handleSubmit(values, { resetForm });
-                }}
+                    setSubmitting(false);
+                    handleResetPassword(values, { resetForm });
+                  }}
               >
                 <Form
                   className="mt-8 space-y-6"
@@ -175,32 +170,17 @@ const Login = () => {
                         Remember me
                       </label>
                     </div>
-                    <div className="text-sm">
-                      <Link 
-                        to="/resetpassword"
-                        className="text-indigo-400 hover:text-blue-500"
-                      >
-                        Forgot your password?
-                      </Link>
-                    </div>
+                 
                   </div>
                   <div>
                     <button
                       type="submit"
                       className="w-full flex justify-center bg-gradient-to-r from-indigo-500 to-blue-600 hover:bg-gradient-to-l hover:from-blue-500 hover:to-indigo-600 text-gray-100 p-4 rounded-full tracking-wide font-semibold shadow-lg cursor-pointer transition ease-in duration-500"
                     >
-                      Sign in
+                      Reset password
                     </button>
                   </div>
-                  <p className="flex flex-col items-center justify-center mt-10 text-center text-md text-gray-500">
-                    <span>Don't have an account?</span>
-                    <Link
-                      to="/register"
-                      className="text-indigo-400 hover:text-blue-500 no-underline hover:underline cursor-pointer transition ease-in duration-300"
-                    >
-                      Sign up
-                    </Link>
-                  </p>
+             
                 </Form>
               </Formik>
             </div>
@@ -208,7 +188,7 @@ const Login = () => {
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default Login;
+export default NewPassword

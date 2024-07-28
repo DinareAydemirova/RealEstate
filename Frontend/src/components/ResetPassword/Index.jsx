@@ -1,42 +1,35 @@
-import React, { useContext, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { UserContext } from "../../context/userProvider";
+import React, { useRef, useState } from "react";
 import { Formik, Form, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
+import emailjs from "@emailjs/browser";
 
-const Login = () => {
-  const [showPassword, setShowPassword] = useState(false);
+const ResetPassword = () => {
   const [error, setError] = useState(null);
-  const { addToken } = useContext(UserContext);
-  const navigate = useNavigate();
 
-  const handleSubmit = async (values, { resetForm }) => {
-    try {
-      const response = await fetch("http://localhost:3000/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+  const form = useRef();
+
+  const sendEmail = (values) => {
+    const templateParams = {
+      from_email: values.email,
+      to_email: values.email,
+      to_name: "Kinsley team",
+    };
+
+    emailjs
+      .send(
+        "service_dhp5dpe",
+        "template_43000fy",
+        templateParams,
+        "B0TWgyT1gV8R_WZiW"
+      )
+      .then(
+        (response) => {
+          console.log("SUCCESS!", response.status, response.text);
         },
-        body: JSON.stringify({
-          email: values.email,
-          password: values.password,
-        }),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Login failed.");
-      }
-
-      const data = await response.json();
-      addToken(data);
-      resetForm();
-      setError(null);
-      navigate("/");
-    } catch (error) {
-      setError(error.message);
-    }
+        (error) => {
+          console.log("FAILED...", error.text);
+        }
+      );
   };
 
   return (
@@ -91,25 +84,24 @@ const Login = () => {
                   Welcome Back!
                 </h2>
                 <p className="mt-2 text-sm text-gray-500">
-                  Please sign in to your account
+                  Please enter your email to reset password
                 </p>
               </div>
               <Formik
-                initialValues={{ password: "", email: "" }}
+                initialValues={{ email: "" }}
                 validationSchema={Yup.object({
-                  password: Yup.string()
-                    .min(8, "Must be at least 8 characters long")
-                    .required("Password is required"),
                   email: Yup.string()
                     .email("Invalid email address")
                     .required("Email is required"),
                 })}
                 onSubmit={(values, { setSubmitting, resetForm }) => {
+                  sendEmail(values);
                   setSubmitting(false);
-                  handleSubmit(values, { resetForm });
+                  resetForm();
                 }}
               >
                 <Form
+                  ref={form}
                   className="mt-8 space-y-6"
                   action="#"
                   method="POST"
@@ -132,75 +124,22 @@ const Login = () => {
                       className="text-red-500 text-sm"
                     />
                   </div>
-                  <div className="mt-8 content-center relative">
-                    <label className="ml-3 text-sm font-bold text-gray-700 tracking-wide">
-                      Password
-                    </label>
-                    <Field
-                      className="w-full content-center text-base px-4 py-2 border-b rounded-2xl border-gray-300 focus:outline-none focus:border-indigo-500"
-                      type={showPassword ? "text" : "password"}
-                      placeholder="Enter your password"
-                      name="password"
-                    />
-                    <div className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5">
-                      <button
-                        name="password"
-                        className="focus:outline-none"
-                        onClick={() => setShowPassword(!showPassword)}
-                      >
-                        {showPassword ? <FaEyeSlash /> : <FaEye />}
-                      </button>
-                    </div>
-                    <ErrorMessage
-                      name="password"
-                      component="span"
-                      className="text-red-500 text-sm"
-                    />
-                  </div>
+
                   {error && (
                     <div className="mb-4 text-red-500 text-sm">{error}</div>
                   )}
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center">
-                      <input
-                        id="remember_me"
-                        name="remember_me"
-                        type="checkbox"
-                        className="h-4 w-4 bg-blue-500 focus:ring-blue-400 border-gray-300 rounded"
-                      />
-                      <label
-                        htmlFor="remember_me"
-                        className="ml-2 block text-sm text-gray-900"
-                      >
-                        Remember me
-                      </label>
-                    </div>
-                    <div className="text-sm">
-                      <Link 
-                        to="/resetpassword"
-                        className="text-indigo-400 hover:text-blue-500"
-                      >
-                        Forgot your password?
-                      </Link>
-                    </div>
-                  </div>
+
                   <div>
                     <button
                       type="submit"
                       className="w-full flex justify-center bg-gradient-to-r from-indigo-500 to-blue-600 hover:bg-gradient-to-l hover:from-blue-500 hover:to-indigo-600 text-gray-100 p-4 rounded-full tracking-wide font-semibold shadow-lg cursor-pointer transition ease-in duration-500"
                     >
-                      Sign in
+                      Send
                     </button>
+                    <p>
+                      Note: We will send a password reset link to your email
+                    </p>
                   </div>
-                  <p className="flex flex-col items-center justify-center mt-10 text-center text-md text-gray-500">
-                    <span>Don't have an account?</span>
-                    <Link
-                      to="/register"
-                      className="text-indigo-400 hover:text-blue-500 no-underline hover:underline cursor-pointer transition ease-in duration-300"
-                    >
-                      Sign up
-                    </Link>
-                  </p>
                 </Form>
               </Formik>
             </div>
@@ -211,4 +150,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default ResetPassword;

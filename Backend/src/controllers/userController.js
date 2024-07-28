@@ -2,40 +2,51 @@ const UserModel = require("../models/userModel");
 
 const getAllUsers = async (req, res) => {
   try {
-    const AllUsers = await UserModel.find({});
-    res.status(200).json(AllUsers);
+    const allUsers = await UserModel.find({});
+    res.status(200).json(allUsers);
   } catch (error) {
-    res.status(500).json({ message: "Users are not found" });
+    res.status(500).json({ message: "Users are not found", error: error.message });
   }
 };
 
 const getUserById = async (req, res) => {
   try {
     const { id } = req.params;
-    const decoded = req.decoded;
     const user = await UserModel.findById(id);
-    res.send(user);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.status(200).json(user);
   } catch (error) {
-    res.send(error.message);
+    res.status(500).json({ message: "Error retrieving user", error: error.message });
   }
 };
 
 const createUser = async (req, res) => {
   try {
     const { email, password, firstName, lastName } = req.body;
-    const newUser = UserModel({ email, password, firstName, lastName });
+    if (!email || !password || !firstName || !lastName) {
+      return res.status(400).json({ message: "All fields are required" });
+    }
+    const newUser = new UserModel({ email, password, firstName, lastName });
     await newUser.save();
-    res.send(newUser);
+    res.status(201).json(newUser);
   } catch (error) {
-    res.status(500).json("User is not created!");
+    res.status(500).json({ message: "User is not created", error: error.message });
   }
 };
 
-
 const deleteUser = async (req, res) => {
-  const { id } = req.params;
-  const user = await UserModel.findByIdAndDelete(id);
-  res.send(user);
+  try {
+    const { id } = req.params;
+    const user = await UserModel.findByIdAndDelete(id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.status(200).json({ message: "User deleted successfully", user });
+  } catch (error) {
+    res.status(500).json({ message: "Error deleting user", error: error.message });
+  }
 };
 
 const updateUser = async (req, res) => {
@@ -45,14 +56,29 @@ const updateUser = async (req, res) => {
     const updatedUser = await UserModel.findByIdAndUpdate(
       id,
       { role },
-      { new: true } 
+      { new: true }
     );
+    if (!updatedUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
     res.status(200).json(updatedUser);
   } catch (error) {
+    console.error("Update User Error:", error.message);
     res.status(400).send(error.message);
   }
 };
 
 
+const getCurrentUser = async (req, res) => {
+  try {
+    const user = await UserModel.findById(req.user.id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ message: "Error retrieving user", error: error.message });
+  }
+};
 
-module.exports = { getAllUsers, getUserById, createUser, deleteUser, updateUser };
+module.exports = {getCurrentUser, getAllUsers, getUserById, createUser, deleteUser, updateUser };

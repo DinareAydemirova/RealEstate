@@ -41,14 +41,16 @@ const Header = () => {
             <div className={style.loginRegister}>
               {decode ? (
                 <>
-                  <li style={{display:"flex", alignItems:"center"}}>
-                  <CiLogout className="text-red-500"/>
+                  <li style={{ display: "flex", alignItems: "center" }} className={style.out}>
+                    <CiLogout className="text-red-500" />
                     <button className={style.logout} onClick={logout}>
                       Logout
                     </button>
                   </li>
                   <li>
-                    <p className={style.userName}>{getInitials(decode.fullName)}</p>
+                    <Link to="/profile" className={style.userName}>
+                      {getInitials(decode.fullName)}
+                    </Link>
                   </li>
                 </>
               ) : (
