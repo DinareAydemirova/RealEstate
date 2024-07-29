@@ -6,7 +6,7 @@ import { FaEdit } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 const Profile = () => {
-  const { user, token } = useContext(UserContext);
+  const { user, token, decode } = useContext(UserContext);
   const [profile, setProfile] = useState(user);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -46,6 +46,13 @@ const Profile = () => {
       setLoading(false);
     }
   }, [token, user]);
+
+  const getInitials = (fullName) => {
+    if (!fullName) return "";
+    const names = fullName.split(" ");
+    const initials = names.map((name) => name.charAt(0).toUpperCase());
+    return initials.join("");
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -111,10 +118,17 @@ const Profile = () => {
                 <div className="flex flex-wrap justify-center">
                   <div className="w-full lg:w-3/12 px-4 lg:order-2 flex justify-center">
                     <div className="relative">
-                      <img
-                        src="./profile.jpg"
-                        className="shadow-xl rounded-full h-auto align-middle border-none absolute -m-16 -ml-20 lg:-ml-16 max-w-150-px"
-                      />
+                      {profile.profileImage ? (
+                        <img
+                          src={profile.profileImage}
+                          alt="Profile"
+                          className="shadow-xl rounded-full h-auto align-middle border-none absolute -m-16 -ml-20 lg:-ml-16 max-w-150-px"
+                        />
+                      ) : (
+                        <div className="shadow-xl rounded-full h-24 w-24 flex items-center justify-center text-white text-4xl bg-cyan-700 absolute -m-16 -ml-20 lg:-ml-16">
+                          {getInitials(profile.fullName)}
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>

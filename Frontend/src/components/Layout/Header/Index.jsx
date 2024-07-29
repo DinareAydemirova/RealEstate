@@ -32,22 +32,27 @@ const Header = () => {
             <img src="./logo.png" alt="Logo" />
           </Link>
           <div className={`${style.menu} ${menuOpen ? style.open : ""}`}>
-            <li className={isActive("/residencies")}>
-              <Link to="/residencies">Residencies</Link>
-            </li>
-            <li className={isActive("/contact")}>
-              <Link to="/contact">Contact</Link>
-            </li>
+            <div className={style.loginRegister}>
+              <li className={isActive("/residencies")}>
+                <Link to="/residencies">Residencies</Link>
+              </li>
+              <li className={isActive("/contact")}>
+                <Link to="/contact">Contact</Link>
+              </li>
+            </div>
             <div className={style.loginRegister}>
               {decode ? (
                 <>
-                  <li style={{ display: "flex", alignItems: "center" }} className={style.out}>
+                  <li
+                    style={{ display: "flex", alignItems: "center" }}
+                    className={style.out}
+                  >
                     <CiLogout className="text-red-500" />
                     <button className={style.logout} onClick={logout}>
                       Logout
                     </button>
                   </li>
-                  <li>
+                  <li className={style.profile}>
                     <Link to="/profile" className={style.userName}>
                       {getInitials(decode.fullName)}
                     </Link>
