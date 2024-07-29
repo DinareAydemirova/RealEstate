@@ -3,6 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as yup from "yup";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -28,14 +30,17 @@ const Register = () => {
       }
       resetForm();
       setError(null);
+      toast.success("Registration successful! Please log in.");
       navigate("/login");
     } catch (error) {
       setError(error.message);
+      toast.error(`Registration failed: ${error.message}`);
     }
   };
 
   return (
     <>
+    <ToastContainer/>
       <style
         dangerouslySetInnerHTML={{
           __html:

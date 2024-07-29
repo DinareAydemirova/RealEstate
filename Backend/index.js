@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const UserRouter=require("./src/routes/userRoute")
 const AuthRouter = require("./src/routes/authRouter");
+const OtherRoutes= require("./src/routes/otherRoutes")
 
 require('dotenv').config();
 
@@ -17,7 +18,9 @@ app.use(bodyParser.json());
 app.use(express.json())
 
 app.use("/" , AuthRouter)
+app.use("/" ,OtherRoutes)
 app.use("/users" ,UserRouter )
+
 
 
 mongoose.connect(process.env.DB_SECRET_KEY)

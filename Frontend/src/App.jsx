@@ -17,6 +17,8 @@ import AdminPanel from "./components/Admin/Index";
 import Dashboard from "./components/Admin/Dashboard/Index";
 import Users from "./components/Admin/Users/Index";
 import Profile from "./components/Profile/Index";
+import ManageProperties from "./components/Admin/Properties/Index";
+import DetailProperty from "./components/Admin/Properties/Detail";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -54,6 +56,9 @@ function App() {
             <Route path="admin/*" element={<AdminPanel />}>
               <Route index element={<Dashboard />} />
               <Route path="users" element={<Users />} />
+              <Route path="properties" element={<ManageProperties />} />
+              <Route path="properties/:id" element={<DetailProperty />} />
+
             </Route>
           </Route>
         </Routes>
