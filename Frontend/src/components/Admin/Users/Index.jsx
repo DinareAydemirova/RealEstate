@@ -9,6 +9,7 @@ const Users = () => {
   const { token } = useContext(UserContext);
   const [page, setPage] = useState(1);
   const [rowsPerPage] = useState(10);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     axios
@@ -77,7 +78,12 @@ const Users = () => {
     }
   };
 
-  const paginatedData = data.slice(
+  const filteredData = data.filter((users) =>
+    users.fullName.toLowerCase().includes(search.toLowerCase())
+  
+  );
+
+  const paginatedData = filteredData.slice(
     (page - 1) * rowsPerPage,
     page * rowsPerPage
   );
@@ -174,7 +180,7 @@ const Users = () => {
       <div className="flex justify-center my-4 pb-8">
         <Stack spacing={2}>
           <Pagination
-            count={Math.ceil(data.length / rowsPerPage)}
+            count={Math.ceil(filteredData.length / rowsPerPage)}
             page={page}
             onChange={handleChangePage}
             color="primary"

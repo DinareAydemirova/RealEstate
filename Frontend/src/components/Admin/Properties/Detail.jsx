@@ -56,12 +56,14 @@ const DetailProperty = () => {
             </div>
           </div>
           <div className="w-full md:w-1/2 px-4">
-            <h2 className="text-3xl font-bold mb-2 flex gap-2">
+            <h2 className="text-3xl font-bold mb-2 flex flex-wrap	 gap-2">
               <FaLocationDot />
-              {data.location}
+              <p>{data.country},</p>
+              <p>{data.city},</p>
+              <p>{data.street}</p>
             </h2>
             <div className="mb-4">
-              <span className="text-2xl font-bold mr-2">${data.price}</span>
+              <span className="text-2xl font-bold">${data.price}</span>
             </div>
 
             <p className="text-gray-700 mb-6">{data.description}</p>

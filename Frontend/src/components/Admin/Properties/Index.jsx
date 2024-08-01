@@ -9,14 +9,22 @@ const ManageProperties = () => {
   const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
   const [rowsPerPage] = useState(10);
+  const [search, setSearch] = useState("");
   const navigate = useNavigate();
+
   useEffect(() => {
     axios.get("/properties").then((res) => {
       setData(res.data);
     });
   }, []);
 
-  const paginatedData = data.slice(
+  const filteredData = data.filter((property) =>
+    property.country.toLowerCase().includes(search.toLowerCase()) ||
+    property.city.toLowerCase().includes(search.toLowerCase()) ||
+    property.street.toLowerCase().includes(search.toLowerCase())
+  );
+
+  const paginatedData = filteredData.slice(
     (page - 1) * rowsPerPage,
     page * rowsPerPage
   );
@@ -25,29 +33,44 @@ const ManageProperties = () => {
     setPage(value);
   };
 
+  const handleDelete = (id) => {
+    axios
+      .delete(`/properties/${id}`)
+      .then(() => {
+        setData((prevData) => prevData.filter((property) => property._id !== id));
+      })
+      .catch((error) => {
+        console.error("There was an error deleting the property!", error);
+      });
+  };
+
   return (
     <>
       <div className="overflow-hidden rounded-lg border border-gray-200 shadow-md m-5">
         <div className="flex justify-between m-2 ">
-        <button className="px-4 py-2 rounded-md border border-indigo-600 bg-neutral-100 text-neutral-500 text-sm hover:-translate-y-1 transform transition duration-200 hover:shadow-md">
-          Add new property
-        </button>
-        <div class="flex items-center space-x-2">
-          <input
-            type="text"
-            name="search"
-            id="search"
-            placeholder="Search..."
-            class="w-full p-2 border border-indigo-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-          />
           <button
-            type="button"
-            class="p-2 bg-indigo-800 text-white rounded-md hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="px-4 py-2 rounded-md border border-indigo-600 bg-neutral-100 text-neutral-500 text-sm hover:-translate-y-1 transform transition duration-200 hover:shadow-md"
+            onClick={() => navigate(`/admin/properties/addProperty`)}
           >
-            Search
+            Add new property
           </button>
-        </div>
-
+          <div className="flex items-center space-x-2">
+            <input
+              type="text"
+              name="search"
+              id="search"
+              placeholder="Search..."
+              className="w-full p-2 border border-indigo-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              onChange={(e) => setSearch(e.target.value)}
+              value={search}
+            />
+            <button
+              type="button"
+              className="p-2 bg-indigo-800 text-white rounded-md hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            >
+              Search
+            </button>
+          </div>
         </div>
         <table className="w-full border-collapse bg-white text-left text-sm text-gray-500">
           <thead className="bg-gray-50">
@@ -59,7 +82,7 @@ const ManageProperties = () => {
                 ID
               </th>
               <th scope="col" className="px-6 py-4 font-medium text-gray-900">
-                Location
+                Country
               </th>
               <th scope="col" className="px-6 py-4 font-medium text-gray-900">
                 Price
@@ -79,7 +102,7 @@ const ManageProperties = () => {
                   <img src={elem.images[0]} alt="" />
                 </th>
                 <td className="px-6 py-4">{elem._id}</td>
-                <td className="px-6 py-4">{elem.location}</td>
+                <td className="px-6 py-4">{elem.country}</td>
                 <td className="px-6 py-4">${elem.price}</td>
                 <td className="px-6 py-4 text-indigo-500 hover:text-indigo-800">
                   <TbListDetails
@@ -87,7 +110,6 @@ const ManageProperties = () => {
                     onClick={() => navigate(`/admin/properties/${elem._id}`)}
                   />
                 </td>
-
                 <td className="px-6 py-4">
                   <div className="flex justify-end gap-4">
                     <a href="#" title="Delete">
@@ -97,7 +119,8 @@ const ManageProperties = () => {
                         viewBox="0 0 24 24"
                         strokeWidth="1.5"
                         stroke="currentColor"
-                        className="h-6 w-6 text-red-600	hover:text-red-700"
+                        className="h-6 w-6 text-red-600 hover:text-red-700"
+                        onClick={() => handleDelete(elem._id)}
                       >
                         <path
                           strokeLinecap="round"
@@ -107,13 +130,16 @@ const ManageProperties = () => {
                       </svg>
                     </a>
                     <a href="#" title="Edit">
-                      <svg
+                      <button
+                       onClick={() => navigate(`/admin/properties/edit/${elem._id}`)}
+                      >
+                          <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
                         strokeWidth="1.5"
                         stroke="currentColor"
-                        className="h-6 w-6 text-green-600	hover:text-green-700"
+                        className="h-6 w-6 text-green-600 hover:text-green-700"
                       >
                         <path
                           strokeLinecap="round"
@@ -121,6 +147,8 @@ const ManageProperties = () => {
                           d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125"
                         />
                       </svg>
+                      </button>
+                    
                     </a>
                   </div>
                 </td>
@@ -132,7 +160,7 @@ const ManageProperties = () => {
       <div className="flex justify-center my-4 pb-8">
         <Stack spacing={2}>
           <Pagination
-            count={Math.ceil(data.length / rowsPerPage)}
+            count={Math.ceil(filteredData.length / rowsPerPage)}
             page={page}
             onChange={handleChangePage}
             color="primary"

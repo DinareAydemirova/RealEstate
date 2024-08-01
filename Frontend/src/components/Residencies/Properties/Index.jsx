@@ -28,7 +28,7 @@ const Properties = () => {
           <span>
             <HiLocationMarker />
           </span>
-          <input type="text" placeholder="Search by title/city/country ..." />
+          <input type="text" placeholder="Search by city/country ..." />
           <button>Search</button>
         </div>
         <div className={style.properties}>

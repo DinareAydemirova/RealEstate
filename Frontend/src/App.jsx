@@ -19,6 +19,8 @@ import Users from "./components/Admin/Users/Index";
 import Profile from "./components/Profile/Index";
 import ManageProperties from "./components/Admin/Properties/Index";
 import DetailProperty from "./components/Admin/Properties/Detail";
+import AddProperty from "./components/Admin/Properties/AddProperty";
+import EditProperty from "./components/Admin/Properties/EditProperty";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -58,7 +60,8 @@ function App() {
               <Route path="users" element={<Users />} />
               <Route path="properties" element={<ManageProperties />} />
               <Route path="properties/:id" element={<DetailProperty />} />
-
+              <Route path="properties/edit/:id" element={<EditProperty />} />
+              <Route path="properties/addProperty" element={<AddProperty />} />
             </Route>
           </Route>
         </Routes>
