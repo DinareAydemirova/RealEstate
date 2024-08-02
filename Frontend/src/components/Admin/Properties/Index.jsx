@@ -19,7 +19,6 @@ const ManageProperties = () => {
   }, []);
 
   const filteredData = data.filter((property) =>
-    property.country.toLowerCase().includes(search.toLowerCase()) ||
     property.city.toLowerCase().includes(search.toLowerCase()) ||
     property.street.toLowerCase().includes(search.toLowerCase())
   );

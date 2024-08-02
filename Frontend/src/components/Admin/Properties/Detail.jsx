@@ -4,11 +4,17 @@ import axios from "axios";
 import { IoBedSharp } from "react-icons/io5";
 import { FaBath } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 
 const DetailProperty = () => {
   const { id } = useParams();
   const [data, setData] = useState({});
   const [mainImage, setMainImage] = useState("");
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -22,6 +28,8 @@ const DetailProperty = () => {
     };
     fetchData();
   }, [id]);
+
+
 
   const handleImageClick = (img) => {
     setMainImage(img);
@@ -37,26 +45,38 @@ const DetailProperty = () => {
               alt={data.name}
               className="w-full h-96 object-cover mb-4"
             />
-            <div className="flex gap-2 overflow-x-scroll">
+            <Swiper
+            modules={[Navigation, Pagination, Scrollbar, A11y]}
+              spaceBetween={10}
+              slidesPerView={4}
+              navigation
+              pagination={{ clickable: true }}
+              scrollbar={{ draggable: true }}
+              onSlideChange={() => console.log("slide change")}
+              onSwiper={(swiper) => console.log(swiper)}
+            >
               {data.images?.map((img, index) => (
-                <div
-                  key={index}
-                  onClick={() => handleImageClick(img)}
-                  className={`cursor-pointer border-2 ${
-                    img === mainImage ? "border-blue-500" : "border-transparent"
-                  }`}
-                >
-                  <img
-                    src={img}
-                    alt={`Room image ${index + 1}`}
-                    className="w-24 h-24 object-cover"
-                  />
-                </div>
+                <SwiperSlide key={index}>
+                  <div
+                    onClick={() => handleImageClick(img)}
+                    className={`cursor-pointer border-2 ${
+                      img === mainImage
+                        ? "border-blue-500"
+                        : "border-transparent"
+                    }`}
+                  >
+                    <img
+                      src={img}
+                      alt={`Room image ${index + 1}`}
+                      className="w-24 h-24 object-cover"
+                    />
+                  </div>
+                </SwiperSlide>
               ))}
-            </div>
+            </Swiper>
           </div>
           <div className="w-full md:w-1/2 px-4">
-            <h2 className="text-3xl font-bold mb-2 flex flex-wrap	 gap-2">
+            <h2 className="text-3xl font-bold mb-2 flex flex-wrap gap-2">
               <FaLocationDot />
               <p>{data.country},</p>
               <p>{data.city},</p>
