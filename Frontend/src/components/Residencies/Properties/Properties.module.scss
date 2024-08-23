@@ -47,7 +47,7 @@
     }
     .properties {
       display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
       justify-content: center;
       align-items: center;
       gap: 15px;
@@ -59,11 +59,13 @@
         gap: 10px;
         border-radius: 15px;
         transition: 0.5s;
-        padding: 15px;
+        padding: 10px;
+        height: 23rem;
         box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
         img {
-          max-width: 18rem;
-          height: 200px;
+          max-width: 15rem;
+          max-height: 10rem;
+          height: 100%;
         }
         .price {
           font-weight: 600;
@@ -78,6 +80,7 @@
         p {
           color: #8c8b8b;
           font-size: 15px;
+          max-width: 15rem;
         }
       }
       .card:hover {
@@ -108,14 +111,18 @@
   }
 }
 
-
-@media only screen and (max-width: 1215px) {
+@media only screen and (max-width: 1318px) {
+  .properties {
+    grid-template-columns: 1fr 1fr 1fr!important;
+  }
+}
+@media only screen and (max-width: 1010px) {
   .properties {
     grid-template-columns: 1fr 1fr !important;
   }
 }
 
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 660px) {
   .properties {
     grid-template-columns: 1fr !important;
   }
@@ -124,6 +131,7 @@
 @media only screen and (max-width: 400px) {
  
   .card{
+    height: 19rem !important;
     img {
       max-width: 10rem !important;
     }

@@ -15,7 +15,6 @@ const DetailProperty = () => {
   const [data, setData] = useState({});
   const [mainImage, setMainImage] = useState("");
 
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -28,8 +27,6 @@ const DetailProperty = () => {
     };
     fetchData();
   }, [id]);
-
-
 
   const handleImageClick = (img) => {
     setMainImage(img);
@@ -46,7 +43,7 @@ const DetailProperty = () => {
               className="w-full h-96 object-cover mb-4"
             />
             <Swiper
-            modules={[Navigation, Pagination, Scrollbar, A11y]}
+              modules={[Navigation, Pagination, Scrollbar, A11y]}
               spaceBetween={10}
               slidesPerView={4}
               navigation
@@ -78,7 +75,7 @@ const DetailProperty = () => {
           <div className="w-full md:w-1/2 px-4">
             <h2 className="text-3xl font-bold mb-2 flex flex-wrap gap-2">
               <FaLocationDot />
-              <p>{data.country},</p>
+              <p>Azerbaijan,</p>
               <p>{data.city},</p>
               <p>{data.street}</p>
             </h2>

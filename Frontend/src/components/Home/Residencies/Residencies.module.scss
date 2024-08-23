@@ -10,6 +10,17 @@
   .container {
     max-width: 1200px;
     margin: 0 auto;
+    .seemore{
+      display: flex;
+      justify-content: end;
+      font-size: 15px;
+      color: #1f3e72;
+      padding: 0 15px;
+      &:hover{
+        color: #1f3d72a3;
+      }
+    }
+
     .headings {
       margin-bottom: 50px;
       display: flex;
@@ -54,6 +65,7 @@
         padding: 15px;
         img {
           max-width: 15rem;
+          height: 8rem;
         }
         .price {
           font-weight: 600;

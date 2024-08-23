@@ -4,7 +4,7 @@ import { HiLocationMarker } from "react-icons/hi";
 import axios from "axios";
 
 const Properties = () => {
-  const [visible, setVisible] = useState(3);
+  const [visible, setVisible] = useState(4);
   const [data, setData] = useState([]);
   const [search, setSearch] = useState("");
 
@@ -48,10 +48,10 @@ const Properties = () => {
               <img src={elem.images[0]} alt={elem.city} />
               <div className={style.price}>
                 <p style={{ color: "orange", fontSize: "20px" }}>$</p>
-                <p style={{ fontSize: "20px" }}>{elem.price}</p>
+                <p style={{ fontSize: "20px"}}>{elem.price}</p>
               </div>
               <h2>{elem.city}</h2>
-              <p>{elem.description.slice(0, 170)}...</p>
+              <p>{elem.description.slice(0, 130)}...</p>
             </div>
           ))}
         </div>

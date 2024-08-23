@@ -156,7 +156,7 @@ const AddProperty = () => {
                         className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
                       >
                         <option value="">Select country</option>
-                        <option value="United States">Azerbaijan</option>
+                        <option value="Azerbaijan">Azerbaijan</option>
                       </Field>
                       <ErrorMessage
                         name="country"

@@ -3,6 +3,7 @@ import { Link, Outlet, useLocation } from "react-router-dom";
 import { AiOutlineTeam } from "react-icons/ai";
 import { MdHome } from "react-icons/md";
 import { ImHome } from "react-icons/im";
+import { Helmet } from "react-helmet";
 
 const AdminPanel = () => {
   const location = useLocation();
@@ -56,6 +57,11 @@ const AdminPanel = () => {
       </nav>
       <div className="flex-1 p-6">
         <Outlet />
+        <Helmet>
+          <meta charSet="utf-8" />
+          <title>Admin panel</title>
+          <link rel="canonical" href="http://mysite.com/example" />
+        </Helmet>
       </div>
     </div>
   );

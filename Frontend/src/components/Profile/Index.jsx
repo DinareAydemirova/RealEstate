@@ -4,6 +4,7 @@ import { IoMdMail } from "react-icons/io";
 import { IoPerson } from "react-icons/io5";
 import { FaEdit } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 const Profile = () => {
   const { user, token, decode } = useContext(UserContext);
@@ -210,6 +211,11 @@ const Profile = () => {
           </div>
         </section>
       </main>
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>Profile</title>
+        <link rel="canonical" href="http://mysite.com/example" />
+      </Helmet>
     </>
   );
 };
